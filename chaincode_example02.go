@@ -112,9 +112,6 @@ func (t *SimpleChaincode) tushar3(stub shim.ChaincodeStubInterface) pb.Response 
 	} else if function == "query" {
 		// the old "Query" is now implemtned in invoke
 		return t.query(stub, args)
-	}else if function == "tushar" {
-		// the old "Query" is now implemtned in invoke
-		return t.tushar(stub, args)
 	}
 
 	jsonResp := "{\"From Invoke Name\":\"" + "A" + "\",\"Amount\":\"" + "1020" + "\"}"
