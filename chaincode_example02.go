@@ -89,9 +89,12 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	} else if function == "query" {
 		// the old "Query" is now implemtned in invoke
 		return t.query(stub, args)
-	}else if function == "tushar" {
+	}else if function == "testresp" {
 		// the old "Query" is now implemtned in invoke
-		return t.tushar(stub, args)
+		return t.testresp(stub, args)
+	}else if function == "testerror" {
+		// the old "Query" is now implemtned in invoke
+		return t.testerror(stub, args)
 	}
 
 	return shim.Error("Invalid invoke function name. Expecting \"invoke\" \"delete\" \"query\"")
@@ -114,7 +117,13 @@ func (t *SimpleChaincode) tushar3(stub shim.ChaincodeStubInterface) pb.Response 
 		return t.tushar(stub, args)
 	}
 
-	return shim.Error("Invalid invoke function name. Expecting \"invoke\" \"delete\" \"query\"")
+	jsonResp := "{\"From Invoke Name\":\"" + "A" + "\",\"Amount\":\"" + "1020" + "\"}"
+	fmt.Printf("Query Response:%s\n", jsonResp)
+	return pb.Response{
+	  Status:  200,
+	  Message: jsonResp,
+	 }
+	//return shim.Error("Invalid invoke function name. Expecting \"invoke\" \"delete\" \"query\"")
 }
 
 // Transaction makes payment of X units from A to B
@@ -219,15 +228,24 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 	return shim.Success(Avalbytes)
 }
 
-func (t *SimpleChaincode) tushar(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func (t *SimpleChaincode) testresp(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	
 	jsonResp := "{\"Name\":\"" + "A" + "\",\"Amount\":\"" + "1020" + "\"}"
 	fmt.Printf("Query Response:%s\n", jsonResp)
 	return pb.Response{
-  Status:  200,
-  Message: jsonResp,
- }
+	  Status:  200,
+	  Message: jsonResp,
+	 }
 	//return shim.Error("Incorrect number of arguments. Expecting 4" + jsonResp)
+}
+
+
+func (t *SimpleChaincode) testerror(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	
+	jsonResp := "{\"Name\":\"" + "A" + "\",\"Amount\":\"" + "1020" + "\"}"
+	fmt.Printf("Query Response:%s\n", jsonResp)
+	
+	return shim.Error("Incorrect number of arguments. Expecting 4" + jsonResp)
 }
 
 func main() {
