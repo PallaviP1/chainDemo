@@ -1,12 +1,9 @@
 /*
 Copyright IBM Corp. 2016 All Rights Reserved.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
 		 http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,13 +22,8 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"github.com/hyperledger/fabric/core/chaincode/shim"	
-	//"encoding/json"
-	//"errors"
-	//"reflect"
-	//"strings"
-	//"time"
-	//"sort"
+
+	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
 
@@ -89,38 +81,9 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	} else if function == "query" {
 		// the old "Query" is now implemtned in invoke
 		return t.query(stub, args)
-	}else if function == "testresp" {
-		// the old "Query" is now implemtned in invoke
-		return t.testresp(stub, args)
-	}else if function == "testerror" {
-		// the old "Query" is now implemtned in invoke
-		return t.testerror(stub, args)
 	}
 
 	return shim.Error("Invalid invoke function name. Expecting \"invoke\" \"delete\" \"query\"")
-}
-
-func (t *SimpleChaincode) tushar3(stub shim.ChaincodeStubInterface) pb.Response {
-	fmt.Println("ex02 Invoke")
-	function, args := stub.GetFunctionAndParameters()
-	if function == "invoke" {
-		// Make payment of X units from A to B
-		return t.invoke(stub, args)
-	} else if function == "delete" {
-		// Deletes an entity from its state
-		return t.delete(stub, args)
-	} else if function == "query" {
-		// the old "Query" is now implemtned in invoke
-		return t.query(stub, args)
-	}
-
-	jsonResp := "{\"From Invoke Name\":\"" + "A" + "\",\"Amount\":\"" + "1020" + "\"}"
-	fmt.Printf("Query Response:%s\n", jsonResp)
-	return pb.Response{
-	  Status:  200,
-	  Message: jsonResp,
-	 }
-	//return shim.Error("Invalid invoke function name. Expecting \"invoke\" \"delete\" \"query\"")
 }
 
 // Transaction makes payment of X units from A to B
@@ -223,26 +186,6 @@ func (t *SimpleChaincode) query(stub shim.ChaincodeStubInterface, args []string)
 	jsonResp := "{\"Name\":\"" + A + "\",\"Amount\":\"" + string(Avalbytes) + "\"}"
 	fmt.Printf("Query Response:%s\n", jsonResp)
 	return shim.Success(Avalbytes)
-}
-
-func (t *SimpleChaincode) testresp(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	
-	jsonResp := "{\"Name\":\"" + "A" + "\",\"Amount\":\"" + "1020" + "\"}"
-	fmt.Printf("Query Response:%s\n", jsonResp)
-	return pb.Response{
-	  Status:  200,
-	  Message: jsonResp,
-	 }
-	//return shim.Error("Incorrect number of arguments. Expecting 4" + jsonResp)
-}
-
-
-func (t *SimpleChaincode) testerror(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	
-	jsonResp := "{\"Name\":\"" + "A" + "\",\"Amount\":\"" + "1020" + "\"}"
-	fmt.Printf("Query Response:%s\n", jsonResp)
-	
-	return shim.Error("Incorrect number of arguments. Expecting 4" + jsonResp)
 }
 
 func main() {
